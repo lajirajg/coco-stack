@@ -1,5 +1,6 @@
 ---
 import { SITE } from "~/site";
+import NavLink from "~/components/NavLink.astro";
 
 const { title, description } = Astro.props as {
   title: string;
@@ -25,12 +26,23 @@ const { title, description } = Astro.props as {
             <span class="name">{SITE.name}</span>
           </a>
           <nav class="navlinks" aria-label="Primary">
-            <a href="/playground">Playground</a>
-            <a href="/research">Research</a>
-            <a href="/apps">Apps</a>
-            <a href="/about">About</a>
-            <a href="/contact">Contact</a>
+            <NavLink href="/playground">Playground</NavLink>
+            <NavLink href="/research">Research</NavLink>
+            <NavLink href="/apps">Apps</NavLink>
+            <NavLink href="/about">About</NavLink>
+            <NavLink href="/contact">Contact</NavLink>
           </nav>
+
+          <details class="mobileMenu">
+            <summary class="mobileMenuBtn">Menu</summary>
+            <div class="mobileMenuPanel" role="menu">
+              <NavLink href="/playground">Playground</NavLink>
+              <NavLink href="/research">Research</NavLink>
+              <NavLink href="/apps">Apps</NavLink>
+              <NavLink href="/about">About</NavLink>
+              <NavLink href="/contact">Contact</NavLink>
+            </div>
+          </details>
         </header>
 
         <main>
@@ -47,6 +59,8 @@ const { title, description } = Astro.props as {
             <a class="pill" href="/playground">New experiments</a>
             <a class="pill" href="/research">Deep dives</a>
             <a class="pill" href="/apps">Public tools</a>
+            <a class="pill" href={SITE.links.linkedin} rel="me">LinkedIn</a>
+            <a class="pill" href={SITE.links.github} rel="me">GitHub</a>
           </div>
         </footer>
       </div>

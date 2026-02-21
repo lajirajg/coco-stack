@@ -1,0 +1,42 @@
+---
+import BaseLayout from "~/layouts/BaseLayout.astro";
+import { SITE } from "~/site";
+import { getCollection } from "astro:content";
+
+const apps = (await getCollection("apps"))
+  .filter((p) => !p.data.draft)
+  .sort((a, b) => b.data.pubDate.valueOf() - a.data.pubDate.valueOf());
+
+const statusLabel: Record<string, string> = {
+  idea: "Idea",
+  prototype: "Prototype",
+  live: "Live"
+};
+---
+
+<BaseLayout title={`Apps - ${SITE.name}`} description="Small public-interest tools and prototypes.">
+  <section class="hero">
+    <div class="kicker">Apps</div>
+    <h1 class="headline">Tiny tools, real outcomes.</h1>
+    <p class="subhead">
+      Front-end only for now. If something becomes valuable, it graduates to a more
+      complete product.
+    </p>
+  </section>
+
+  <section class="grid" aria-label="Apps list">
+    {apps.map((app) => (
+      <a class="card span6" href={`/apps/${app.slug}`}>
+        <h3>{app.data.title}</h3>
+        <p>{app.data.description}</p>
+        <div class="meta">
+          <span class="pill">{statusLabel[app.data.status]}</span>
+          {app.data.url ? <span class="pill">External</span> : <span class="pill">Hosted here</span>}
+          {app.data.tags.slice(0, 2).map((t) => (
+            <span class="pill">{t}</span>
+          ))}
+        </div>
+      </a>
+    ))}
+  </section>
+</BaseLayout>

@@ -1,0 +1,84 @@
+---
+import BaseLayout from "~/layouts/BaseLayout.astro";
+import { SITE } from "~/site";
+---
+
+<BaseLayout title={`${SITE.name} - ${SITE.tagline}`} description={SITE.tagline}>
+  <section class="hero">
+    <div class="kicker">Applied AI / Product Thinking / Research Notes</div>
+    <h1 class="headline">
+      A practical home for experiments, deep dives, and public tools.
+    </h1>
+    <p class="subhead">
+      I bridge technology and business outcomes, with deep focus on AI. This site
+      collects what I'm building, what I'm learning, and what I think matters next.
+    </p>
+    <div class="ctaRow">
+      <a class="btn primary" href="/contact">Start a conversation</a>
+      <a class="btn" href="/research">Read Research &amp; PoVs</a>
+      <a class="btn" href="/playground">Browse the Playground</a>
+    </div>
+  </section>
+
+  <section class="grid" aria-label="Primary sections">
+    <a class="card span6" href="/playground">
+      <h3>Playground</h3>
+      <p>
+        Short, hands-on trials with new AI capabilities. Captures the setup, the
+        result, and the business relevance.
+      </p>
+      <div class="meta">
+        <span class="pill">Experiments</span>
+        <span class="pill">Notes</span>
+        <span class="pill">Code snippets</span>
+      </div>
+    </a>
+
+    <a class="card span6" href="/research">
+      <h3>Research &amp; PoVs</h3>
+      <p>
+        Longer reads: frameworks, tradeoffs, and domain applications (including
+        genetics and cancer research).
+      </p>
+      <div class="meta">
+        <span class="pill">Evidence</span>
+        <span class="pill">Frameworks</span>
+        <span class="pill">Implications</span>
+      </div>
+    </a>
+
+    <a class="card span4" href="/apps">
+      <h3>Apps</h3>
+      <p>
+        Small public-interest tools. Front-end only today, with room to grow later.
+      </p>
+      <div class="meta">
+        <span class="pill">Utility</span>
+        <span class="pill">Open access</span>
+      </div>
+    </a>
+
+    <a class="card span4" href="/about">
+      <h3>Professional profile</h3>
+      <p>
+        Background, focus areas, and how I approach building AI products responsibly.
+      </p>
+      <div class="meta">
+        <span class="pill">Bio</span>
+        <span class="pill">Principles</span>
+      </div>
+    </a>
+
+    <a class="card span4" href="/contact">
+      <h3>Services</h3>
+      <p>
+        Strategy, AI prototyping, and technical advisory. Clear scope, measurable outcomes.
+      </p>
+      <div class="meta">
+        <span class="pill">Advisory</span>
+        <span class="pill">Prototyping</span>
+        <span class="pill">Workshops</span>
+      </div>
+    </a>
+  </section>
+</BaseLayout>

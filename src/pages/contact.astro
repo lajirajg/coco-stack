@@ -1,0 +1,62 @@
+---
+import BaseLayout from "~/layouts/BaseLayout.astro";
+import { SITE } from "~/site";
+---
+
+<BaseLayout title={`Contact - ${SITE.name}`} description="Reach out for advisory, prototyping, or collaboration.">
+  <section class="hero">
+    <div class="kicker">Contact</div>
+    <h1 class="headline">Let's build something useful.</h1>
+    <p class="subhead">
+      For now, the simplest, most reliable contact method is email. If you already have a
+      brief (goal, timeline, constraints), include it and I'll reply with next steps.
+    </p>
+    <div class="ctaRow">
+      <a class="btn primary" href={`mailto:${SITE.email}?subject=Coco%20Stack%20Inquiry`}>
+        Email {SITE.email}
+      </a>
+      <button class="btn" id="copyEmail" type="button">Copy email</button>
+    </div>
+  </section>
+
+  <section class="grid" aria-label="Services">
+    <div class="card span6">
+      <h3>What I can help with</h3>
+      <p>
+        AI strategy, rapid prototyping, evaluation design, and technical advisory that
+        connects engineering decisions to business outcomes.
+      </p>
+      <div class="meta">
+        <span class="pill">Advisory</span>
+        <span class="pill">Prototypes</span>
+        <span class="pill">Workshops</span>
+      </div>
+    </div>
+    <div class="card span6">
+      <h3>What to include</h3>
+      <p>
+        The user, the problem, what "success" means, constraints (data, privacy, budget),
+        and any deadlines.
+      </p>
+      <div class="meta">
+        <span class="pill">Goals</span>
+        <span class="pill">Constraints</span>
+        <span class="pill">Timeline</span>
+      </div>
+    </div>
+  </section>
+
+  <script define:vars={{ email: SITE.email }}>
+    const btn = document.getElementById("copyEmail");
+    btn?.addEventListener("click", async () => {
+      try {
+        await navigator.clipboard.writeText(email);
+        btn.textContent = "Copied";
+        setTimeout(() => (btn.textContent = "Copy email"), 1200);
+      } catch {
+        btn.textContent = "Copy failed";
+        setTimeout(() => (btn.textContent = "Copy email"), 1200);
+      }
+    });
+  </script>
+</BaseLayout>

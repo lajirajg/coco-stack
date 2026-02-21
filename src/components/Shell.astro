@@ -1,0 +1,55 @@
+---
+import { SITE } from "~/site";
+
+const { title, description } = Astro.props as {
+  title: string;
+  description?: string;
+};
+---
+
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>{title}</title>
+    <meta name="description" content={description ?? SITE.tagline} />
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+  </head>
+  <body>
+    <div class="container fadeIn">
+      <div class="shell">
+        <header class="nav">
+          <a class="brand" href="/" aria-label="Home">
+            <span class="mark" aria-hidden="true"></span>
+            <span class="name">{SITE.name}</span>
+          </a>
+          <nav class="navlinks" aria-label="Primary">
+            <a href="/playground">Playground</a>
+            <a href="/research">Research</a>
+            <a href="/apps">Apps</a>
+            <a href="/about">About</a>
+            <a href="/contact">Contact</a>
+          </nav>
+        </header>
+
+        <main>
+          <slot />
+        </main>
+
+        <footer class="footer">
+          <div>
+            <span>(c) {new Date().getFullYear()} {SITE.name}</span>
+            <span style="opacity:0.6"> - </span>
+            <a href="/contact">Work with me</a>
+          </div>
+          <div style="display:flex; gap:10px; flex-wrap:wrap">
+            <a class="pill" href="/playground">New experiments</a>
+            <a class="pill" href="/research">Deep dives</a>
+            <a class="pill" href="/apps">Public tools</a>
+          </div>
+        </footer>
+      </div>
+    </div>
+  </body>
+</html>

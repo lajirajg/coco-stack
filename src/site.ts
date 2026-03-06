@@ -1,14 +1,35 @@
 export const SITE = {
-  // Edit these values to customize coco-stack.com without touching page templates.
   name: "Coco Stack",
   domain: "coco-stack.com",
   url: "https://coco-stack.com",
   email: "hello@coco-stack.com",
+  calLink: "https://cal.com/laji-coco-stack/30min",
   tagline:
-    "AI engineering, applied research, and pragmatic tools that turn ideas into outcomes.",
+    "AI Advisory that turns strategy into measurable business outcomes.",
   links: {
-    linkedin: "https://www.linkedin.com/in/your-handle/",
+    linkedin: "https://www.linkedin.com/in/lajiraj/",
     github: "https://github.com/lajirajg",
-    x: "https://x.com/your-handle"
-  }
+    medium: "https://medium.com/@lajirajs",
+    x: "https://x.com/lajirajs"
+  },
+  medium: [
+    {
+      title: "Reasoning in LLMs: From Fast Intuition to Slow Deliberation",
+      url: "https://medium.com/@lajirajs/reasoning-in-llms-from-fast-intuition-to-slow-deliberation-ae283ad5ba8b",
+      date: "May 2025",
+      tags: ["LLM", "Reasoning", "Chain-of-Thought"]
+    },
+    {
+      title: "Demystifying Agentic Systems",
+      url: "https://medium.com/@lajirajs/demystifying-agentic-systems-7b644cf76dd7",
+      date: "Jan 2025",
+      tags: ["Agents", "Architecture", "Enterprise"]
+    },
+    {
+      title: "Agentic AI: Redefining the Future of Enterprise Workflows",
+      url: "https://medium.com/@lajirajs/agentic-ai-redefining-the-future-of-enterprise-workflows-a93020f34f52",
+      date: "Dec 2024",
+      tags: ["Agentic AI", "Enterprise", "Automation"]
+    }
+  ]
 } as const;

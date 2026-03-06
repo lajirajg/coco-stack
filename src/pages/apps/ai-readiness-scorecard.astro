@@ -1,0 +1,496 @@
+---
+import BaseLayout from "~/layouts/BaseLayout.astro";
+import { SITE } from "~/site";
+---
+
+<BaseLayout
+  title={`AI Readiness Scorecard - ${SITE.name}`}
+  description="Free 10-question assessment to evaluate your organization's AI readiness across 5 dimensions."
+>
+  <section class="hero">
+    <div class="kicker">Free Tool</div>
+    <h1 class="headline">AI Readiness Scorecard</h1>
+    <p class="subhead">
+      10 questions, 3 minutes. Get a clear picture of where your organization
+      stands on AI readiness — and where to focus first.
+    </p>
+  </section>
+
+  <section class="grid" aria-label="Scorecard">
+    <div class="card" style="grid-column:span 12" id="scorecard-app">
+      <!-- Intro screen -->
+      <div id="intro">
+        <h3>How it works</h3>
+        <p>
+          Answer 10 questions across 5 dimensions: Strategy, Data, Team, Process,
+          and Technology. Each answer is scored 1-4. You'll get an overall score,
+          per-dimension breakdown, and actionable next steps.
+        </p>
+        <div class="dimensionPreview">
+          <span class="pill accent">Strategy</span>
+          <span class="pill accent">Data</span>
+          <span class="pill accent">Team</span>
+          <span class="pill accent">Process</span>
+          <span class="pill accent">Technology</span>
+        </div>
+        <div class="ctaRow" style="margin-top:18px">
+          <button class="btn primary" id="startBtn" type="button">Start assessment</button>
+        </div>
+      </div>
+
+      <!-- Question screen (hidden initially) -->
+      <div id="questionScreen" style="display:none">
+        <div class="questionProgress">
+          <div class="progressBar"><div class="progressFill" id="progressFill"></div></div>
+          <span id="progressLabel" class="progressLabel">1 / 10</span>
+        </div>
+        <div class="questionDimension" id="qDimension"></div>
+        <h3 id="qText" class="questionText"></h3>
+        <div id="qOptions" class="optionsList"></div>
+        <div class="questionNav">
+          <button class="btn" id="prevBtn" type="button" style="visibility:hidden">Back</button>
+          <button class="btn primary" id="nextBtn" type="button" disabled>Next</button>
+        </div>
+      </div>
+
+      <!-- Results screen (hidden initially) -->
+      <div id="resultsScreen" style="display:none">
+        <h3>Your AI Readiness Score</h3>
+        <div class="scoreCircle" id="scoreCircle">
+          <span class="scoreNum" id="scoreNum">0</span>
+          <span class="scoreMax">/ 40</span>
+        </div>
+        <div class="scoreLabel" id="scoreLabel"></div>
+        <div class="dimensionScores" id="dimensionScores"></div>
+        <div id="recommendations" class="recommendations"></div>
+        <div class="ctaRow" style="margin-top:22px">
+          <a class="btn primary" href={SITE.calLink} target="_blank">Get a detailed assessment</a>
+          <button class="btn" id="retakeBtn" type="button">Retake</button>
+          <a class="btn" href="/services">View our services</a>
+        </div>
+      </div>
+    </div>
+  </section>
+</BaseLayout>
+
+<script>
+const questions = [
+  {
+    dimension: "Strategy",
+    text: "Does your organization have a defined AI strategy tied to business goals?",
+    options: [
+      "No AI strategy exists",
+      "We've discussed AI but have no formal plan",
+      "We have a documented AI strategy with some initiatives",
+      "AI strategy is fully integrated with our business strategy and roadmap"
+    ]
+  },
+  {
+    dimension: "Strategy",
+    text: "How does leadership view AI investment?",
+    options: [
+      "Skeptical or unaware of AI's potential",
+      "Interested but not willing to allocate budget yet",
+      "Actively exploring with some budget allocated",
+      "AI is a strategic priority with dedicated budget and executive sponsorship"
+    ]
+  },
+  {
+    dimension: "Data",
+    text: "How would you describe your organization's data infrastructure?",
+    options: [
+      "Data is scattered across spreadsheets and silos",
+      "Some centralized data but inconsistent quality and access",
+      "Organized data warehouse/lake with defined governance",
+      "Mature data platform with pipelines, quality monitoring, and broad access"
+    ]
+  },
+  {
+    dimension: "Data",
+    text: "Do you have data relevant to your highest-priority AI use cases?",
+    options: [
+      "We don't know what data we'd need",
+      "We have some relevant data but it's incomplete or messy",
+      "Good data exists but needs cleaning and integration work",
+      "High-quality, labeled data is available and ready for AI use"
+    ]
+  },
+  {
+    dimension: "Team",
+    text: "What AI/ML expertise exists in your organization?",
+    options: [
+      "No one with AI/ML experience",
+      "A few tech-curious individuals but no formal AI skills",
+      "Some team members with data science or ML experience",
+      "Dedicated AI/ML team or strong partnerships with AI specialists"
+    ]
+  },
+  {
+    dimension: "Team",
+    text: "How comfortable is your broader team with AI-assisted workflows?",
+    options: [
+      "Most people are unfamiliar or resistant to AI tools",
+      "Some early adopters using ChatGPT-type tools informally",
+      "Teams actively experimenting with AI in their daily work",
+      "AI tools are embedded in workflows with training and best practices"
+    ]
+  },
+  {
+    dimension: "Process",
+    text: "Are your key business processes documented and standardized?",
+    options: [
+      "Most processes are ad-hoc and undocumented",
+      "Some processes are documented but inconsistently followed",
+      "Core processes are well-documented with clear ownership",
+      "Processes are standardized, measured, and continuously improved"
+    ]
+  },
+  {
+    dimension: "Process",
+    text: "Have you identified specific processes that could benefit from AI?",
+    options: [
+      "We haven't thought about which processes AI could improve",
+      "We have a vague sense but haven't evaluated formally",
+      "We've identified 2-3 high-potential use cases",
+      "We have a prioritized list with ROI estimates for each use case"
+    ]
+  },
+  {
+    dimension: "Technology",
+    text: "What's your current technology stack's readiness for AI integration?",
+    options: [
+      "Legacy systems with limited API access",
+      "Mix of modern and legacy, some API capabilities",
+      "Modern cloud-based infrastructure with good API coverage",
+      "Cloud-native with CI/CD, containerization, and ML infrastructure"
+    ]
+  },
+  {
+    dimension: "Technology",
+    text: "Do you have processes for evaluating and deploying AI solutions safely?",
+    options: [
+      "No framework for AI evaluation or deployment",
+      "Ad-hoc testing when someone builds something",
+      "Basic evaluation criteria and staging environments",
+      "Formal evaluation pipeline: testing, bias checks, monitoring, and rollback plans"
+    ]
+  }
+];
+
+const dimensions = ["Strategy", "Data", "Team", "Process", "Technology"];
+const answers: (number | null)[] = new Array(questions.length).fill(null);
+let currentQ = 0;
+
+const introEl = document.getElementById("intro")!;
+const questionEl = document.getElementById("questionScreen")!;
+const resultsEl = document.getElementById("resultsScreen")!;
+const startBtn = document.getElementById("startBtn")!;
+const prevBtn = document.getElementById("prevBtn")! as HTMLButtonElement;
+const nextBtn = document.getElementById("nextBtn")! as HTMLButtonElement;
+const retakeBtn = document.getElementById("retakeBtn")!;
+
+function showQuestion() {
+  const q = questions[currentQ];
+  document.getElementById("qDimension")!.textContent = q.dimension;
+  document.getElementById("qText")!.textContent = q.text;
+  document.getElementById("progressLabel")!.textContent = `${currentQ + 1} / ${questions.length}`;
+  (document.getElementById("progressFill")! as HTMLElement).style.width =
+    `${((currentQ + 1) / questions.length) * 100}%`;
+
+  const optionsEl = document.getElementById("qOptions")!;
+  optionsEl.innerHTML = "";
+  q.options.forEach((opt, i) => {
+    const btn = document.createElement("button");
+    btn.type = "button";
+    btn.className = "optionBtn" + (answers[currentQ] === i ? " selected" : "");
+    btn.textContent = opt;
+    btn.addEventListener("click", () => {
+      answers[currentQ] = i;
+      optionsEl.querySelectorAll(".optionBtn").forEach((b) => b.classList.remove("selected"));
+      btn.classList.add("selected");
+      nextBtn.disabled = false;
+    });
+    optionsEl.appendChild(btn);
+  });
+
+  prevBtn.style.visibility = currentQ === 0 ? "hidden" : "visible";
+  nextBtn.textContent = currentQ === questions.length - 1 ? "See results" : "Next";
+  nextBtn.disabled = answers[currentQ] === null;
+}
+
+function showResults() {
+  questionEl.style.display = "none";
+  resultsEl.style.display = "block";
+
+  const total = answers.reduce((s, a) => s! + (a! + 1), 0) as number;
+  document.getElementById("scoreNum")!.textContent = String(total);
+
+  const circle = document.getElementById("scoreCircle")!;
+  const label = document.getElementById("scoreLabel")!;
+
+  if (total <= 15) {
+    circle.className = "scoreCircle scoreLow";
+    label.textContent = "Early Stage — Big opportunity ahead";
+  } else if (total <= 25) {
+    circle.className = "scoreCircle scoreMid";
+    label.textContent = "Developing — Ready to accelerate";
+  } else if (total <= 33) {
+    circle.className = "scoreCircle scoreGood";
+    label.textContent = "Strong — Ready for advanced AI initiatives";
+  } else {
+    circle.className = "scoreCircle scoreExcellent";
+    label.textContent = "Excellent — AI-native organization";
+  }
+
+  // Dimension scores
+  const dimScoresEl = document.getElementById("dimensionScores")!;
+  dimScoresEl.innerHTML = "";
+  dimensions.forEach((dim) => {
+    const dimQs = questions.map((q, i) => ({ q, i })).filter(({ q }) => q.dimension === dim);
+    const dimTotal = dimQs.reduce((s, { i }) => s + (answers[i]! + 1), 0);
+    const dimMax = dimQs.length * 4;
+    const pct = (dimTotal / dimMax) * 100;
+
+    const row = document.createElement("div");
+    row.className = "dimRow";
+    row.innerHTML = `
+      <div class="dimLabel"><strong>${dim}</strong><span>${dimTotal}/${dimMax}</span></div>
+      <div class="dimBar"><div class="dimFill" style="width:${pct}%"></div></div>
+    `;
+    dimScoresEl.appendChild(row);
+  });
+
+  // Recommendations
+  const recsEl = document.getElementById("recommendations")!;
+  const weakest = dimensions
+    .map((dim) => {
+      const dimQs = questions.map((q, i) => ({ q, i })).filter(({ q }) => q.dimension === dim);
+      const score = dimQs.reduce((s, { i }) => s + (answers[i]! + 1), 0);
+      return { dim, score, max: dimQs.length * 4 };
+    })
+    .sort((a, b) => a.score / a.max - b.score / b.max);
+
+  const recMap: Record<string, string> = {
+    Strategy:
+      "Start with a focused AI strategy workshop. Align leadership on 2-3 high-impact use cases and secure executive sponsorship before investing in technology.",
+    Data:
+      "Invest in data foundations first. Audit your data assets, establish governance, and create a data quality pipeline. AI is only as good as the data it learns from.",
+    Team:
+      "Build AI literacy across the organization. Start with hands-on workshops for your technical team and AI awareness sessions for leadership.",
+    Process:
+      "Map and document your key business processes. Identify repetitive, rule-based tasks as quick AI wins, then move to more complex decision-support use cases.",
+    Technology:
+      "Modernize your tech stack incrementally. Prioritize API-first architecture and cloud infrastructure. You don't need a full ML platform to start — managed AI services can get you far."
+  };
+
+  recsEl.innerHTML = `
+    <h3 style="margin-top:18px">Where to focus</h3>
+    <div class="recList">
+      ${weakest
+        .slice(0, 3)
+        .map(
+          ({ dim, score, max }) =>
+            `<div class="recItem">
+              <strong>${dim}</strong> <span class="pill">${score}/${max}</span>
+              <p>${recMap[dim]}</p>
+            </div>`
+        )
+        .join("")}
+    </div>
+  `;
+}
+
+startBtn.addEventListener("click", () => {
+  introEl.style.display = "none";
+  questionEl.style.display = "block";
+  showQuestion();
+});
+
+prevBtn.addEventListener("click", () => {
+  if (currentQ > 0) {
+    currentQ--;
+    showQuestion();
+  }
+});
+
+nextBtn.addEventListener("click", () => {
+  if (answers[currentQ] === null) return;
+  if (currentQ < questions.length - 1) {
+    currentQ++;
+    showQuestion();
+  } else {
+    showResults();
+  }
+});
+
+retakeBtn.addEventListener("click", () => {
+  answers.fill(null);
+  currentQ = 0;
+  resultsEl.style.display = "none";
+  introEl.style.display = "block";
+});
+</script>
+
+<style>
+  .questionProgress {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    margin-bottom: 18px;
+  }
+  .progressBar {
+    flex: 1;
+    height: 6px;
+    border-radius: 999px;
+    background: rgba(11, 18, 32, 0.08);
+    overflow: hidden;
+  }
+  .progressFill {
+    height: 100%;
+    border-radius: 999px;
+    background: linear-gradient(90deg, var(--accent), var(--accent2));
+    transition: width 300ms ease;
+  }
+  .progressLabel {
+    font-size: 13px;
+    color: rgba(11, 18, 32, 0.55);
+    white-space: nowrap;
+  }
+  .questionDimension {
+    display: inline-block;
+    font-size: 12px;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: var(--accent);
+    margin-bottom: 6px;
+  }
+  .questionText {
+    font-family: var(--serif);
+    font-size: clamp(18px, 3vw, 24px);
+    line-height: 1.2;
+    margin: 0 0 18px;
+  }
+  .optionsList {
+    display: grid;
+    gap: 10px;
+  }
+  .optionBtn {
+    text-align: left;
+    padding: 14px 16px;
+    border-radius: 14px;
+    border: 1px solid rgba(11, 18, 32, 0.12);
+    background: rgba(255, 255, 255, 0.6);
+    font-size: 15px;
+    line-height: 1.4;
+    color: var(--ink);
+    cursor: pointer;
+    transition: border-color 150ms, background 150ms;
+    font-family: inherit;
+  }
+  .optionBtn:hover {
+    border-color: rgba(31, 138, 91, 0.3);
+    background: rgba(31, 138, 91, 0.06);
+  }
+  .optionBtn.selected {
+    border-color: rgba(31, 138, 91, 0.5);
+    background: linear-gradient(135deg, rgba(31, 138, 91, 0.12), rgba(14, 165, 164, 0.08));
+  }
+  .questionNav {
+    display: flex;
+    justify-content: space-between;
+    margin-top: 18px;
+  }
+  .scoreCircle {
+    display: flex;
+    align-items: baseline;
+    justify-content: center;
+    gap: 4px;
+    width: 140px;
+    height: 140px;
+    border-radius: 50%;
+    margin: 18px auto;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+    gap: 0;
+  }
+  .scoreLow { background: rgba(217, 119, 6, 0.14); border: 3px solid rgba(217, 119, 6, 0.4); }
+  .scoreMid { background: rgba(14, 165, 164, 0.12); border: 3px solid rgba(14, 165, 164, 0.4); }
+  .scoreGood { background: rgba(31, 138, 91, 0.12); border: 3px solid rgba(31, 138, 91, 0.4); }
+  .scoreExcellent { background: rgba(31, 138, 91, 0.18); border: 3px solid rgba(31, 138, 91, 0.6); }
+  .scoreNum {
+    font-family: var(--serif);
+    font-size: 42px;
+    font-weight: 700;
+    line-height: 1;
+  }
+  .scoreMax {
+    font-size: 14px;
+    color: rgba(11, 18, 32, 0.5);
+  }
+  .scoreLabel {
+    text-align: center;
+    font-size: 16px;
+    font-weight: 600;
+    color: var(--ink);
+    margin-bottom: 18px;
+  }
+  .dimRow {
+    margin-bottom: 12px;
+  }
+  .dimLabel {
+    display: flex;
+    justify-content: space-between;
+    font-size: 14px;
+    margin-bottom: 4px;
+  }
+  .dimLabel span {
+    color: rgba(11, 18, 32, 0.5);
+  }
+  .dimBar {
+    height: 8px;
+    border-radius: 999px;
+    background: rgba(11, 18, 32, 0.06);
+    overflow: hidden;
+  }
+  .dimFill {
+    height: 100%;
+    border-radius: 999px;
+    background: linear-gradient(90deg, var(--accent), var(--accent2));
+    transition: width 600ms ease;
+  }
+  .recommendations {
+    margin-top: 12px;
+  }
+  .recList {
+    display: grid;
+    gap: 12px;
+    margin-top: 10px;
+  }
+  .recItem {
+    padding: 14px;
+    border-radius: 14px;
+    border: 1px solid rgba(11, 18, 32, 0.08);
+    background: rgba(255, 255, 255, 0.5);
+  }
+  .recItem strong {
+    margin-right: 8px;
+  }
+  .recItem p {
+    margin: 6px 0 0;
+    color: rgba(11, 18, 32, 0.7);
+    font-size: 14px;
+    line-height: 1.5;
+  }
+  .dimensionPreview {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+    margin-top: 14px;
+  }
+  .dimensionScores {
+    max-width: 480px;
+    margin: 0 auto 12px;
+  }
+</style>

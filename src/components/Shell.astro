@@ -6,6 +6,9 @@ const { title, description } = Astro.props as {
   title: string;
   description?: string;
 };
+
+const desc = description ?? SITE.tagline;
+const canonicalURL = new URL(Astro.url.pathname, SITE.url);
 ---
 
 <!doctype html>
@@ -14,8 +17,21 @@ const { title, description } = Astro.props as {
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <title>{title}</title>
-    <meta name="description" content={description ?? SITE.tagline} />
+    <meta name="description" content={desc} />
+    <link rel="canonical" href={canonicalURL} />
     <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+
+    <!-- Open Graph -->
+    <meta property="og:type" content="website" />
+    <meta property="og:title" content={title} />
+    <meta property="og:description" content={desc} />
+    <meta property="og:url" content={canonicalURL} />
+    <meta property="og:site_name" content={SITE.name} />
+
+    <!-- Twitter -->
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:title" content={title} />
+    <meta name="twitter:description" content={desc} />
   </head>
   <body>
     <div class="container fadeIn">
@@ -26,7 +42,7 @@ const { title, description } = Astro.props as {
             <span class="name">{SITE.name}</span>
           </a>
           <nav class="navlinks" aria-label="Primary">
-            <NavLink href="/playground">Playground</NavLink>
+            <NavLink href="/services">Services</NavLink>
             <NavLink href="/research">Research</NavLink>
             <NavLink href="/apps">Apps</NavLink>
             <NavLink href="/about">About</NavLink>
@@ -36,7 +52,7 @@ const { title, description } = Astro.props as {
           <details class="mobileMenu">
             <summary class="mobileMenuBtn">Menu</summary>
             <div class="mobileMenuPanel" role="menu">
-              <NavLink href="/playground">Playground</NavLink>
+              <NavLink href="/services">Services</NavLink>
               <NavLink href="/research">Research</NavLink>
               <NavLink href="/apps">Apps</NavLink>
               <NavLink href="/about">About</NavLink>
@@ -51,16 +67,16 @@ const { title, description } = Astro.props as {
 
         <footer class="footer">
           <div>
-            <span>(c) {new Date().getFullYear()} {SITE.name}</span>
-            <span style="opacity:0.6"> - </span>
-            <a href="/contact">Work with me</a>
+            <span>&copy; {new Date().getFullYear()} {SITE.name}</span>
+            <span style="opacity:0.6"> &middot; </span>
+            <a href="/services">Work with us</a>
           </div>
           <div style="display:flex; gap:10px; flex-wrap:wrap">
-            <a class="pill" href="/playground">New experiments</a>
-            <a class="pill" href="/research">Deep dives</a>
-            <a class="pill" href="/apps">Public tools</a>
-            <a class="pill" href={SITE.links.linkedin} rel="me">LinkedIn</a>
-            <a class="pill" href={SITE.links.github} rel="me">GitHub</a>
+            <a class="pill" href="/apps">Tools</a>
+            <a class="pill" href="/research">Research</a>
+            <a class="pill" href={SITE.links.linkedin} rel="me" target="_blank">LinkedIn</a>
+            <a class="pill" href={SITE.links.medium} rel="me" target="_blank">Medium</a>
+            <a class="pill" href={SITE.links.github} rel="me" target="_blank">GitHub</a>
           </div>
         </footer>
       </div>

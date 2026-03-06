@@ -1,0 +1,460 @@
+---
+import BaseLayout from "~/layouts/BaseLayout.astro";
+import { SITE } from "~/site";
+---
+
+<BaseLayout
+  title={`AI Use Case Prioritizer - ${SITE.name}`}
+  description="Prioritize your AI use cases by impact and feasibility. Free interactive tool."
+>
+  <section class="hero">
+    <div class="kicker">Free Tool</div>
+    <h1 class="headline">AI Use Case Prioritizer</h1>
+    <p class="subhead">
+      Add your potential AI use cases, rate them on impact and feasibility,
+      and get a prioritized roadmap instantly.
+    </p>
+  </section>
+
+  <section class="grid" aria-label="Prioritizer">
+    <div class="card" style="grid-column:span 12" id="prioritizer-app">
+      <!-- Input phase -->
+      <div id="inputPhase">
+        <h3>Step 1: Add your use cases</h3>
+        <p style="color:var(--muted);margin-bottom:14px">
+          Describe 2-6 potential AI use cases for your organization.
+          Be specific about the business process or outcome.
+        </p>
+        <div id="useCaseInputs" class="ucInputs"></div>
+        <div class="ctaRow" style="margin-top:12px">
+          <button class="btn" id="addUcBtn" type="button">+ Add use case</button>
+          <button class="btn primary" id="toRatingBtn" type="button" disabled>Rate these use cases</button>
+        </div>
+      </div>
+
+      <!-- Rating phase -->
+      <div id="ratingPhase" style="display:none">
+        <h3>Step 2: Rate each use case</h3>
+        <p style="color:var(--muted);margin-bottom:14px">
+          For each use case, rate business impact and implementation feasibility on a scale of 1-5.
+        </p>
+        <div id="ratingCards" class="ratingCards"></div>
+        <div class="ctaRow" style="margin-top:14px">
+          <button class="btn" id="backToInputBtn" type="button">Back</button>
+          <button class="btn primary" id="showResultsBtn" type="button">See prioritized results</button>
+        </div>
+      </div>
+
+      <!-- Results phase -->
+      <div id="resultPhase" style="display:none">
+        <h3>Your Prioritized AI Roadmap</h3>
+
+        <!-- Matrix -->
+        <div class="matrixWrap">
+          <div class="matrixLabel matrixY">Impact</div>
+          <div class="matrix" id="matrix">
+            <div class="matrixQuad q1">Quick wins</div>
+            <div class="matrixQuad q2">Strategic bets</div>
+            <div class="matrixQuad q3">Low priority</div>
+            <div class="matrixQuad q4">Consider later</div>
+          </div>
+          <div class="matrixLabel matrixX">Feasibility</div>
+        </div>
+
+        <!-- Ranked list -->
+        <div id="rankedList" class="rankedList"></div>
+
+        <div class="ctaRow" style="margin-top:18px">
+          <a class="btn primary" href={SITE.calLink} target="_blank">Get help implementing these</a>
+          <button class="btn" id="restartBtn" type="button">Start over</button>
+          <a class="btn" href="/services">View our services</a>
+        </div>
+      </div>
+    </div>
+  </section>
+</BaseLayout>
+
+<script>
+interface UseCase {
+  name: string;
+  impact: number;
+  feasibility: number;
+}
+
+let useCases: UseCase[] = [];
+const colors = ["#1f8a5b", "#0ea5a4", "#d97706", "#6366f1", "#ec4899", "#8b5cf6"];
+
+function createInput(index: number) {
+  const div = document.createElement("div");
+  div.className = "ucRow";
+  div.innerHTML = `
+    <span class="ucNum">${index + 1}</span>
+    <input type="text" class="ucInput" placeholder="e.g. Automate customer support triage" maxlength="120" />
+    ${index >= 2 ? '<button type="button" class="ucRemove" title="Remove">&times;</button>' : ""}
+  `;
+  const removeBtn = div.querySelector(".ucRemove");
+  if (removeBtn) {
+    removeBtn.addEventListener("click", () => {
+      div.remove();
+      reindex();
+    });
+  }
+  div.querySelector("input")!.addEventListener("input", checkInputs);
+  return div;
+}
+
+function reindex() {
+  const rows = document.querySelectorAll("#useCaseInputs .ucRow");
+  rows.forEach((row, i) => {
+    row.querySelector(".ucNum")!.textContent = String(i + 1);
+  });
+  checkInputs();
+}
+
+function checkInputs() {
+  const inputs = document.querySelectorAll<HTMLInputElement>("#useCaseInputs .ucInput");
+  const filled = Array.from(inputs).filter((i) => i.value.trim().length > 0).length;
+  (document.getElementById("toRatingBtn") as HTMLButtonElement).disabled = filled < 2;
+}
+
+function setupInputPhase() {
+  const container = document.getElementById("useCaseInputs")!;
+  container.innerHTML = "";
+  for (let i = 0; i < 3; i++) container.appendChild(createInput(i));
+}
+
+function buildRatingCards() {
+  const inputs = document.querySelectorAll<HTMLInputElement>("#useCaseInputs .ucInput");
+  useCases = Array.from(inputs)
+    .map((i) => i.value.trim())
+    .filter((v) => v.length > 0)
+    .map((name) => ({ name, impact: 3, feasibility: 3 }));
+
+  const container = document.getElementById("ratingCards")!;
+  container.innerHTML = "";
+  useCases.forEach((uc, idx) => {
+    const card = document.createElement("div");
+    card.className = "ratingCard";
+    card.innerHTML = `
+      <div class="ratingTitle"><span class="ucDot" style="background:${colors[idx % colors.length]}"></span>${uc.name}</div>
+      <div class="ratingRow">
+        <label>Business Impact</label>
+        <div class="sliderWrap">
+          <span class="sliderLabel">Low</span>
+          <input type="range" min="1" max="5" value="3" class="slider" data-idx="${idx}" data-field="impact" />
+          <span class="sliderLabel">High</span>
+          <span class="sliderVal" id="impact-${idx}">3</span>
+        </div>
+      </div>
+      <div class="ratingRow">
+        <label>Feasibility</label>
+        <div class="sliderWrap">
+          <span class="sliderLabel">Hard</span>
+          <input type="range" min="1" max="5" value="3" class="slider" data-idx="${idx}" data-field="feasibility" />
+          <span class="sliderLabel">Easy</span>
+          <span class="sliderVal" id="feasibility-${idx}">3</span>
+        </div>
+      </div>
+    `;
+    card.querySelectorAll<HTMLInputElement>(".slider").forEach((s) => {
+      s.addEventListener("input", () => {
+        const i = Number(s.dataset.idx);
+        const f = s.dataset.field as "impact" | "feasibility";
+        useCases[i][f] = Number(s.value);
+        document.getElementById(`${f}-${i}`)!.textContent = s.value;
+      });
+    });
+    container.appendChild(card);
+  });
+}
+
+function showResults() {
+  document.getElementById("ratingPhase")!.style.display = "none";
+  document.getElementById("resultPhase")!.style.display = "block";
+
+  // Sort by composite score (impact * feasibility)
+  const ranked = useCases
+    .map((uc, i) => ({ ...uc, idx: i, score: uc.impact * uc.feasibility }))
+    .sort((a, b) => b.score - a.score);
+
+  // Place dots on matrix
+  const matrix = document.getElementById("matrix")!;
+  matrix.querySelectorAll(".matrixDot").forEach((d) => d.remove());
+  useCases.forEach((uc, i) => {
+    const dot = document.createElement("div");
+    dot.className = "matrixDot";
+    dot.style.left = `${((uc.feasibility - 1) / 4) * 88 + 6}%`;
+    dot.style.bottom = `${((uc.impact - 1) / 4) * 88 + 6}%`;
+    dot.style.background = colors[i % colors.length];
+    dot.title = uc.name;
+    dot.textContent = String(i + 1);
+    matrix.appendChild(dot);
+  });
+
+  // Ranked list
+  const listEl = document.getElementById("rankedList")!;
+  listEl.innerHTML = "<h3 style='margin-top:18px'>Priority order</h3>";
+  ranked.forEach((uc, rank) => {
+    const category =
+      uc.impact >= 3 && uc.feasibility >= 3
+        ? "Quick win"
+        : uc.impact >= 3
+          ? "Strategic bet"
+          : uc.feasibility >= 3
+            ? "Consider later"
+            : "Low priority";
+    const item = document.createElement("div");
+    item.className = "rankedItem";
+    item.innerHTML = `
+      <div class="rankedHeader">
+        <span class="ucDot" style="background:${colors[uc.idx % colors.length]}"></span>
+        <strong>#${rank + 1}: ${uc.name}</strong>
+        <span class="pill">${category}</span>
+      </div>
+      <div class="rankedMeta">
+        Impact: ${uc.impact}/5 &middot; Feasibility: ${uc.feasibility}/5 &middot; Score: ${uc.score}/25
+      </div>
+    `;
+    listEl.appendChild(item);
+  });
+}
+
+// Wire up buttons
+setupInputPhase();
+
+document.getElementById("addUcBtn")!.addEventListener("click", () => {
+  const container = document.getElementById("useCaseInputs")!;
+  const count = container.querySelectorAll(".ucRow").length;
+  if (count < 6) container.appendChild(createInput(count));
+  if (count + 1 >= 6) (document.getElementById("addUcBtn") as HTMLButtonElement).disabled = true;
+});
+
+document.getElementById("toRatingBtn")!.addEventListener("click", () => {
+  document.getElementById("inputPhase")!.style.display = "none";
+  document.getElementById("ratingPhase")!.style.display = "block";
+  buildRatingCards();
+});
+
+document.getElementById("backToInputBtn")!.addEventListener("click", () => {
+  document.getElementById("ratingPhase")!.style.display = "none";
+  document.getElementById("inputPhase")!.style.display = "block";
+});
+
+document.getElementById("showResultsBtn")!.addEventListener("click", showResults);
+
+document.getElementById("restartBtn")!.addEventListener("click", () => {
+  document.getElementById("resultPhase")!.style.display = "none";
+  document.getElementById("inputPhase")!.style.display = "block";
+  useCases = [];
+  setupInputPhase();
+  (document.getElementById("addUcBtn") as HTMLButtonElement).disabled = false;
+});
+</script>
+
+<style>
+  .ucInputs { display: grid; gap: 8px; }
+  .ucRow {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+  }
+  .ucNum {
+    width: 24px;
+    height: 24px;
+    border-radius: 50%;
+    background: rgba(31, 138, 91, 0.12);
+    color: var(--accent);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 12px;
+    font-weight: 700;
+    flex-shrink: 0;
+  }
+  .ucInput {
+    flex: 1;
+    padding: 12px 14px;
+    border-radius: 12px;
+    border: 1px solid rgba(11, 18, 32, 0.12);
+    background: rgba(255, 255, 255, 0.6);
+    font-size: 15px;
+    font-family: inherit;
+    color: var(--ink);
+    outline: none;
+    transition: border-color 150ms;
+  }
+  .ucInput:focus {
+    border-color: rgba(31, 138, 91, 0.4);
+  }
+  .ucInput::placeholder { color: rgba(11, 18, 32, 0.35); }
+  .ucRemove {
+    width: 28px;
+    height: 28px;
+    border-radius: 50%;
+    border: 1px solid rgba(11, 18, 32, 0.1);
+    background: rgba(255, 255, 255, 0.5);
+    cursor: pointer;
+    font-size: 16px;
+    color: rgba(11, 18, 32, 0.4);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+  }
+  .ucRemove:hover { background: rgba(217, 119, 6, 0.1); color: var(--warn); }
+
+  .ratingCards { display: grid; gap: 12px; }
+  .ratingCard {
+    padding: 14px 16px;
+    border-radius: 14px;
+    border: 1px solid rgba(11, 18, 32, 0.08);
+    background: rgba(255, 255, 255, 0.5);
+  }
+  .ratingTitle {
+    font-weight: 600;
+    margin-bottom: 12px;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+  }
+  .ucDot {
+    width: 10px;
+    height: 10px;
+    border-radius: 50%;
+    display: inline-block;
+    flex-shrink: 0;
+  }
+  .ratingRow {
+    margin-bottom: 8px;
+  }
+  .ratingRow label {
+    font-size: 13px;
+    color: rgba(11, 18, 32, 0.6);
+    display: block;
+    margin-bottom: 4px;
+  }
+  .sliderWrap {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+  }
+  .sliderLabel {
+    font-size: 11px;
+    color: rgba(11, 18, 32, 0.4);
+    width: 30px;
+    flex-shrink: 0;
+  }
+  .sliderVal {
+    width: 20px;
+    text-align: center;
+    font-weight: 700;
+    font-size: 14px;
+    color: var(--accent);
+  }
+  .slider {
+    flex: 1;
+    -webkit-appearance: none;
+    appearance: none;
+    height: 6px;
+    border-radius: 999px;
+    background: rgba(11, 18, 32, 0.08);
+    outline: none;
+  }
+  .slider::-webkit-slider-thumb {
+    -webkit-appearance: none;
+    width: 18px;
+    height: 18px;
+    border-radius: 50%;
+    background: var(--accent);
+    cursor: pointer;
+    border: 2px solid white;
+    box-shadow: 0 1px 4px rgba(0,0,0,0.2);
+  }
+
+  .matrixWrap {
+    position: relative;
+    margin: 18px 0 12px;
+    padding-left: 28px;
+    padding-bottom: 28px;
+  }
+  .matrixLabel {
+    font-size: 11px;
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    color: rgba(11, 18, 32, 0.4);
+    position: absolute;
+  }
+  .matrixY {
+    left: 0;
+    top: 50%;
+    transform: rotate(-90deg) translateX(-50%);
+    transform-origin: 0 0;
+  }
+  .matrixX {
+    bottom: 4px;
+    left: 50%;
+    transform: translateX(-50%);
+  }
+  .matrix {
+    position: relative;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    grid-template-rows: 1fr 1fr;
+    width: 100%;
+    max-width: 460px;
+    aspect-ratio: 1;
+    margin: 0 auto;
+    border: 1px solid rgba(11, 18, 32, 0.1);
+    border-radius: 14px;
+    overflow: hidden;
+  }
+  .matrixQuad {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 12px;
+    color: rgba(11, 18, 32, 0.35);
+    text-transform: uppercase;
+    letter-spacing: 0.06em;
+  }
+  .q1 { background: rgba(31, 138, 91, 0.08); }
+  .q2 { background: rgba(14, 165, 164, 0.06); }
+  .q3 { background: rgba(11, 18, 32, 0.03); }
+  .q4 { background: rgba(217, 119, 6, 0.06); }
+  .matrixDot {
+    position: absolute;
+    width: 28px;
+    height: 28px;
+    border-radius: 50%;
+    color: white;
+    font-size: 12px;
+    font-weight: 700;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transform: translate(-50%, 50%);
+    box-shadow: 0 2px 6px rgba(0,0,0,0.2);
+    z-index: 1;
+  }
+
+  .rankedList { margin-top: 12px; }
+  .rankedItem {
+    padding: 12px 14px;
+    border-radius: 12px;
+    border: 1px solid rgba(11, 18, 32, 0.06);
+    background: rgba(255, 255, 255, 0.4);
+    margin-bottom: 8px;
+  }
+  .rankedHeader {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    flex-wrap: wrap;
+  }
+  .rankedMeta {
+    font-size: 13px;
+    color: rgba(11, 18, 32, 0.5);
+    margin-top: 4px;
+    padding-left: 18px;
+  }
+</style>

@@ -3,82 +3,156 @@ import BaseLayout from "~/layouts/BaseLayout.astro";
 import { SITE } from "~/site";
 ---
 
-<BaseLayout title={`${SITE.name} - ${SITE.tagline}`} description={SITE.tagline}>
+<BaseLayout title={`${SITE.name} - AI Advisory`} description={SITE.tagline}>
   <section class="hero">
-    <div class="kicker">Applied AI / Product Thinking / Research Notes</div>
+    <div class="kicker">AI Advisory / Strategy / Delivery</div>
     <h1 class="headline">
-      A practical home for experiments, deep dives, and public tools.
+      Turn AI from a buzzword into business outcomes.
     </h1>
     <p class="subhead">
-      I bridge technology and business outcomes, with deep focus on AI. This site
-      collects what I'm building, what I'm learning, and what I think matters next.
+      We help companies cut through AI hype, identify high-impact opportunities,
+      and ship real solutions. Strategy that's grounded in engineering.
+      Engineering that's guided by business value.
     </p>
     <div class="ctaRow">
-      <a class="btn primary" href="/contact">Start a conversation</a>
-      <a class="btn" href="/research">Read Research &amp; PoVs</a>
-      <a class="btn" href="/playground">Browse the Playground</a>
+      <a class="btn primary" href={SITE.calLink} target="_blank">Book a free call</a>
+      <a class="btn" href="/services">See services</a>
+      <a class="btn" href="/apps/ai-readiness-scorecard">Check your AI readiness</a>
     </div>
   </section>
 
-  <section class="grid" aria-label="Primary sections">
-    <a class="card span6" href="/playground">
-      <h3>Playground</h3>
+  <!-- Outcomes -->
+  <section class="grid" aria-label="What we deliver">
+    <div class="card span4">
+      <h3>Clarity</h3>
       <p>
-        Short, hands-on trials with new AI capabilities. Captures the setup, the
-        result, and the business relevance.
+        Cut through vendor noise. Get an honest assessment of where AI will
+        actually move the needle for your business.
       </p>
       <div class="meta">
-        <span class="pill">Experiments</span>
-        <span class="pill">Notes</span>
-        <span class="pill">Code snippets</span>
+        <span class="pill accent">AI Readiness</span>
+        <span class="pill">Roadmaps</span>
+      </div>
+    </div>
+
+    <div class="card span4">
+      <h3>Speed</h3>
+      <p>
+        Go from idea to working prototype in weeks, not quarters.
+        Validate before you invest.
+      </p>
+      <div class="meta">
+        <span class="pill accent">Rapid Prototyping</span>
+        <span class="pill">PoCs</span>
+      </div>
+    </div>
+
+    <div class="card span4">
+      <h3>Results</h3>
+      <p>
+        Every engagement ties to a measurable outcome: cost saved, revenue
+        unlocked, or time reclaimed.
+      </p>
+      <div class="meta">
+        <span class="pill accent">ROI-Focused</span>
+        <span class="pill">Measurable</span>
+      </div>
+    </div>
+  </section>
+
+  <!-- Services preview -->
+  <section class="grid" aria-label="Services">
+    <a class="card span6" href="/services#assessment">
+      <h3>AI Readiness Assessment</h3>
+      <p>
+        A focused deep-dive into your current state: data, team, processes,
+        and opportunities. Walk away with a prioritized action plan.
+      </p>
+      <div class="meta">
+        <span class="pill">2-hour session</span>
+        <span class="pill">Written report</span>
       </div>
     </a>
 
-    <a class="card span6" href="/research">
-      <h3>Research &amp; PoVs</h3>
+    <a class="card span6" href="/services#sprint">
+      <h3>Strategy Sprint</h3>
       <p>
-        Longer reads: frameworks, tradeoffs, and domain applications (including
-        genetics and cancer research).
+        Two-week engagement: assess your landscape, prioritize use cases, and
+        build a working prototype for the highest-impact one.
       </p>
       <div class="meta">
-        <span class="pill">Evidence</span>
-        <span class="pill">Frameworks</span>
-        <span class="pill">Implications</span>
+        <span class="pill">2 weeks</span>
+        <span class="pill">Working prototype</span>
       </div>
     </a>
 
-    <a class="card span4" href="/apps">
-      <h3>Apps</h3>
+    <a class="card span6" href="/services#advisory">
+      <h3>Ongoing Advisory</h3>
       <p>
-        Small public-interest tools. Front-end only today, with room to grow later.
+        Monthly retainer for continuous AI strategy: architecture reviews,
+        vendor evaluation, team upskilling, and prototype iterations.
       </p>
       <div class="meta">
-        <span class="pill">Utility</span>
-        <span class="pill">Open access</span>
+        <span class="pill">Monthly</span>
+        <span class="pill">Retainer</span>
       </div>
     </a>
 
-    <a class="card span4" href="/about">
-      <h3>Professional profile</h3>
+    <a class="card span6" href="/services#workshops">
+      <h3>AI Workshops</h3>
       <p>
-        Background, focus areas, and how I approach building AI products responsibly.
+        Hands-on sessions for your team: prompt engineering, AI product thinking,
+        or building with LLMs. Tailored to your stack and goals.
       </p>
       <div class="meta">
-        <span class="pill">Bio</span>
-        <span class="pill">Principles</span>
+        <span class="pill">Half-day / Full-day</span>
+        <span class="pill">Custom</span>
       </div>
     </a>
+  </section>
 
-    <a class="card span4" href="/contact">
-      <h3>Services</h3>
+  <!-- Domains & trust -->
+  <section class="grid" aria-label="Expertise">
+    <div class="card span6">
+      <h3>Domains we know</h3>
       <p>
-        Strategy, AI prototyping, and technical advisory. Clear scope, measurable outcomes.
+        Deep experience across healthcare, life sciences, financial services,
+        and enterprise SaaS. We speak both the technical and business language.
       </p>
       <div class="meta">
-        <span class="pill">Advisory</span>
-        <span class="pill">Prototyping</span>
-        <span class="pill">Workshops</span>
+        <span class="pill">Healthcare</span>
+        <span class="pill">Life Sciences</span>
+        <span class="pill">FinTech</span>
+        <span class="pill">Enterprise</span>
       </div>
-    </a>
+    </div>
+
+    <div class="card span6">
+      <h3>Our thinking</h3>
+      <p>
+        We publish our research openly. Read our deep dives on agentic systems,
+        LLM reasoning, and enterprise AI adoption.
+      </p>
+      <div class="meta">
+        <a class="pill" href={SITE.links.medium} target="_blank">Medium</a>
+        <a class="pill" href="/research">Research</a>
+        <a class="pill" href="/apps">Free tools</a>
+      </div>
+    </div>
+  </section>
+
+  <!-- CTA banner -->
+  <section class="grid">
+    <div class="card span12 ctaBanner">
+      <h3>Not sure where to start?</h3>
+      <p>
+        Take our free AI Readiness Scorecard — 10 questions, instant results,
+        and a clear picture of where you stand.
+      </p>
+      <div class="ctaRow">
+        <a class="btn primary" href="/apps/ai-readiness-scorecard">Take the assessment</a>
+        <a class="btn" href={SITE.calLink} target="_blank">Or just talk to us</a>
+      </div>
+    </div>
   </section>
 </BaseLayout>

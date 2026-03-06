@@ -124,23 +124,10 @@ pre {
   letter-spacing: 0.2px;
 }
 
-.brand .mark {
-  width: 12px;
-  height: 12px;
-  border-radius: 999px;
-  background: conic-gradient(
-    from 210deg,
-    var(--accent),
-    var(--accent2),
-    var(--warn),
-    var(--accent)
-  );
-  box-shadow: 0 0 0 1px rgba(11, 18, 32, 0.14);
-}
-
-.brand .name {
-  font-family: var(--serif);
-  font-size: 16px;
+.brandLogo {
+  height: 32px;
+  width: auto;
+  display: block;
 }
 
 .navlinks {

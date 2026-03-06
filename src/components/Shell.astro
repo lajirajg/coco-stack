@@ -27,6 +27,7 @@ const canonicalURL = new URL(Astro.url.pathname, SITE.url);
     <meta property="og:description" content={desc} />
     <meta property="og:url" content={canonicalURL} />
     <meta property="og:site_name" content={SITE.name} />
+    <meta property="og:image" content={`${SITE.url}/logo.png`} />
 
     <!-- Twitter -->
     <meta name="twitter:card" content="summary_large_image" />
@@ -38,8 +39,7 @@ const canonicalURL = new URL(Astro.url.pathname, SITE.url);
       <div class="shell">
         <header class="nav">
           <a class="brand" href="/" aria-label="Home">
-            <span class="mark" aria-hidden="true"></span>
-            <span class="name">{SITE.name}</span>
+            <img src="/logo.png" alt={SITE.name} class="brandLogo" />
           </a>
           <nav class="navlinks" aria-label="Primary">
             <NavLink href="/services">Services</NavLink>

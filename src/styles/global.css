@@ -115,7 +115,7 @@ pre {
   display: flex;
   align-items: center;
   justify-content: space-between;
-  padding: 18px 24px 10px;
+  padding: 12px 24px 4px;
 }
 
 .brand {
@@ -124,7 +124,7 @@ pre {
 }
 
 .brandLogo {
-  height: 160px;
+  height: 80px;
   width: auto;
   display: block;
 }
@@ -133,7 +133,7 @@ pre {
   display: flex;
   flex-wrap: wrap;
   gap: 6px;
-  padding: 0 24px 14px;
+  padding: 0 24px 10px;
   font-size: 14px;
   color: var(--muted);
 }

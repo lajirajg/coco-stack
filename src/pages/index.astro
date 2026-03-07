@@ -3,155 +3,76 @@ import BaseLayout from "~/layouts/BaseLayout.astro";
 import { SITE } from "~/site";
 ---
 
-<BaseLayout title={`${SITE.name} - AI Advisory`} description={SITE.tagline}>
+<BaseLayout title={SITE.name} description={SITE.tagline}>
   <section class="hero">
-    <div class="kicker">AI Advisory / Strategy / Delivery</div>
     <h1 class="headline">
-      Turn AI from a buzzword into business outcomes.
+      Where AI meets "let's actually build something."
     </h1>
     <p class="subhead">
-      We help companies cut through AI hype, identify high-impact opportunities,
-      and ship real solutions. Strategy that's grounded in engineering.
-      Engineering that's guided by business value.
+      Tinkering with AI, shipping tools, and writing about what works (and what doesn't).
+      This is where it all lives.
     </p>
-    <div class="ctaRow">
-      <a class="btn primary" href={SITE.calLink} target="_blank">Book a free call</a>
-      <a class="btn" href="/services">See services</a>
-      <a class="btn" href="/apps/ai-readiness-scorecard">Check your AI readiness</a>
-    </div>
   </section>
 
-  <!-- Outcomes -->
-  <section class="grid" aria-label="What we deliver">
-    <div class="card span4">
-      <h3>Clarity</h3>
+  <section class="grid" aria-label="What's here">
+    <a class="card span4" href="/research">
+      <h3>Research</h3>
       <p>
-        Cut through vendor noise. Get an honest assessment of where AI will
-        actually move the needle for your business.
+        Deep dives, PoVs, and industry playbooks. My writing plus the best thinking from across the AI landscape.
       </p>
       <div class="meta">
-        <span class="pill accent">AI Readiness</span>
-        <span class="pill">Roadmaps</span>
-      </div>
-    </div>
-
-    <div class="card span4">
-      <h3>Speed</h3>
-      <p>
-        Go from idea to working prototype in weeks, not quarters.
-        Validate before you invest.
-      </p>
-      <div class="meta">
-        <span class="pill accent">Rapid Prototyping</span>
-        <span class="pill">PoCs</span>
-      </div>
-    </div>
-
-    <div class="card span4">
-      <h3>Results</h3>
-      <p>
-        Every engagement ties to a measurable outcome: cost saved, revenue
-        unlocked, or time reclaimed.
-      </p>
-      <div class="meta">
-        <span class="pill accent">ROI-Focused</span>
-        <span class="pill">Measurable</span>
-      </div>
-    </div>
-  </section>
-
-  <!-- Services preview -->
-  <section class="grid" aria-label="Services">
-    <a class="card span6" href="/services#assessment">
-      <h3>AI Readiness Assessment</h3>
-      <p>
-        A focused deep-dive into your current state: data, team, processes,
-        and opportunities. Walk away with a prioritized action plan.
-      </p>
-      <div class="meta">
-        <span class="pill">2-hour session</span>
-        <span class="pill">Written report</span>
+        <span class="pill accent">PoVs</span>
+        <span class="pill">Playbooks</span>
       </div>
     </a>
 
-    <a class="card span6" href="/services#sprint">
-      <h3>Strategy Sprint</h3>
+    <a class="card span4" href="/apps">
+      <h3>Apps</h3>
       <p>
-        Two-week engagement: assess your landscape, prioritize use cases, and
-        build a working prototype for the highest-impact one.
+        Tools I've built and released. Free, useful, no signup walls.
       </p>
       <div class="meta">
-        <span class="pill">2 weeks</span>
-        <span class="pill">Working prototype</span>
+        <span class="pill accent">Live</span>
+        <span class="pill">Free</span>
       </div>
     </a>
 
-    <a class="card span6" href="/services#advisory">
-      <h3>Ongoing Advisory</h3>
+    <a class="card span4" href="/playground">
+      <h3>Playground</h3>
       <p>
-        Monthly retainer for continuous AI strategy: architecture reviews,
-        vendor evaluation, team upskilling, and prototype iterations.
+        Experiments and half-baked ideas. The stuff that's too interesting not to share.
       </p>
       <div class="meta">
-        <span class="pill">Monthly</span>
-        <span class="pill">Retainer</span>
-      </div>
-    </a>
-
-    <a class="card span6" href="/services#workshops">
-      <h3>AI Workshops</h3>
-      <p>
-        Hands-on sessions for your team: prompt engineering, AI product thinking,
-        or building with LLMs. Tailored to your stack and goals.
-      </p>
-      <div class="meta">
-        <span class="pill">Half-day / Full-day</span>
-        <span class="pill">Custom</span>
+        <span class="pill accent">WIP</span>
+        <span class="pill">Notes</span>
       </div>
     </a>
   </section>
 
-  <!-- Domains & trust -->
-  <section class="grid" aria-label="Expertise">
-    <div class="card span6">
-      <h3>Domains we know</h3>
-      <p>
-        Deep experience across healthcare, life sciences, financial services,
-        and enterprise SaaS. We speak both the technical and business language.
-      </p>
-      <div class="meta">
-        <span class="pill">Healthcare</span>
-        <span class="pill">Life Sciences</span>
-        <span class="pill">FinTech</span>
-        <span class="pill">Enterprise</span>
-      </div>
-    </div>
-
-    <div class="card span6">
-      <h3>Our thinking</h3>
-      <p>
-        We publish our research openly. Read our deep dives on agentic systems,
-        LLM reasoning, and enterprise AI adoption.
-      </p>
-      <div class="meta">
-        <a class="pill" href={SITE.links.medium} target="_blank">Medium</a>
-        <a class="pill" href="/research">Research</a>
-        <a class="pill" href="/apps">Free tools</a>
+  <section class="grid" aria-label="Latest writing">
+    <div class="card span12">
+      <h3>Latest from Medium</h3>
+      <div class="ctaRow" style="margin-top:4px">
+        {SITE.medium.slice(0, 3).map((article) => (
+          <a class="btn" href={article.url} target="_blank" rel="noopener">{article.title.split(":")[0]}</a>
+        ))}
       </div>
     </div>
   </section>
 
-  <!-- CTA banner -->
-  <section class="grid">
+  <section class="grid" aria-label="Connect">
     <div class="card span12 ctaBanner">
-      <h3>Not sure where to start?</h3>
+      <h3>Interesting problem? Let's talk.</h3>
       <p>
-        Take our free AI Readiness Scorecard — 10 questions, instant results,
-        and a clear picture of where you stand.
+        I work with startups and growing companies on AI strategy, architecture, and getting things into production.
       </p>
       <div class="ctaRow">
-        <a class="btn primary" href="/apps/ai-readiness-scorecard">Take the assessment</a>
-        <a class="btn" href={SITE.calLink} target="_blank">Or just talk to us</a>
+        <a class="btn primary" href={SITE.calLink} target="_blank">Book a chat</a>
+        <a class="btn" href={`mailto:${SITE.email}`}>Email</a>
+        <a class="btn" href={SITE.links.linkedin} target="_blank">LinkedIn</a>
+        <a class="btn" href={SITE.links.medium} target="_blank">Medium</a>
+        <a class="btn" href={SITE.links.x} target="_blank">X</a>
+        <a class="btn" href={SITE.links.github} target="_blank">GitHub</a>
       </div>
     </div>
   </section>

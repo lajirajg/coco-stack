@@ -5,31 +5,35 @@ export const SITE = {
   email: "hello@coco-stack.com",
   calLink: "https://cal.com/laji-coco-stack/30min",
   tagline:
-    "AI Advisory that turns strategy into measurable business outcomes.",
+    "One person's quest to make AI actually useful. Research, builds, and honest notes from the trenches.",
   links: {
     linkedin: "https://www.linkedin.com/in/lajiraj/",
     github: "https://github.com/lajirajg",
     medium: "https://medium.com/@lajirajs",
-    x: "https://x.com/lajirajs"
+    x: "https://x.com/lajiraj",
+    substack: ""
   },
   medium: [
     {
       title: "Reasoning in LLMs: From Fast Intuition to Slow Deliberation",
       url: "https://medium.com/@lajirajs/reasoning-in-llms-from-fast-intuition-to-slow-deliberation-ae283ad5ba8b",
       date: "May 2025",
-      tags: ["LLM", "Reasoning", "Chain-of-Thought"]
+      tags: ["LLM", "Reasoning", "Chain-of-Thought"],
+      category: "mine"
     },
     {
       title: "Demystifying Agentic Systems",
       url: "https://medium.com/@lajirajs/demystifying-agentic-systems-7b644cf76dd7",
       date: "Jan 2025",
-      tags: ["Agents", "Architecture", "Enterprise"]
+      tags: ["Agents", "Architecture", "Enterprise"],
+      category: "mine"
     },
     {
       title: "Agentic AI: Redefining the Future of Enterprise Workflows",
       url: "https://medium.com/@lajirajs/agentic-ai-redefining-the-future-of-enterprise-workflows-a93020f34f52",
       date: "Dec 2024",
-      tags: ["Agentic AI", "Enterprise", "Automation"]
+      tags: ["Agentic AI", "Enterprise", "Automation"],
+      category: "mine"
     }
   ]
 } as const;

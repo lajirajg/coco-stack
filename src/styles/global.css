@@ -106,26 +106,25 @@ pre {
   position: relative;
 }
 
-.nav {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  gap: 16px;
-  padding: 16px 18px;
+.headerWrap {
   border-bottom: 1px solid var(--line);
   background: rgba(255, 255, 255, 0.62);
 }
 
+.brandRow {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 18px 24px 10px;
+}
+
 .brand {
   display: inline-flex;
-  align-items: baseline;
-  gap: 10px;
-  font-weight: 700;
-  letter-spacing: 0.2px;
+  align-items: center;
 }
 
 .brandLogo {
-  height: 32px;
+  height: 40px;
   width: auto;
   display: block;
 }
@@ -133,7 +132,8 @@ pre {
 .navlinks {
   display: flex;
   flex-wrap: wrap;
-  gap: 12px;
+  gap: 6px;
+  padding: 0 24px 14px;
   font-size: 14px;
   color: var(--muted);
 }
@@ -209,7 +209,7 @@ pre {
 }
 
 .hero {
-  padding: 40px 18px 18px;
+  padding: 28px 24px 18px;
 }
 
 .kicker {
@@ -222,8 +222,8 @@ pre {
 .headline {
   margin: 10px 0 12px;
   font-family: var(--serif);
-  font-size: clamp(34px, 5vw, 54px);
-  line-height: 1.05;
+  font-size: clamp(22px, 3vw, 32px);
+  line-height: 1.15;
 }
 
 .subhead {

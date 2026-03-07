@@ -37,28 +37,25 @@ const canonicalURL = new URL(Astro.url.pathname, SITE.url);
   <body>
     <div class="container fadeIn">
       <div class="shell">
-        <header class="nav">
-          <a class="brand" href="/" aria-label="Home">
-            <img src="/logo.png" alt={SITE.name} class="brandLogo" />
-          </a>
+        <header class="headerWrap">
+          <div class="brandRow">
+            <a class="brand" href="/" aria-label="Home">
+              <img src="/logo.png" alt={SITE.name} class="brandLogo" />
+            </a>
+            <details class="mobileMenu">
+              <summary class="mobileMenuBtn">Menu</summary>
+              <div class="mobileMenuPanel" role="menu">
+                <NavLink href="/research">Research</NavLink>
+                <NavLink href="/apps">Apps</NavLink>
+                <NavLink href="/playground">Playground</NavLink>
+              </div>
+            </details>
+          </div>
           <nav class="navlinks" aria-label="Primary">
-            <NavLink href="/services">Services</NavLink>
             <NavLink href="/research">Research</NavLink>
             <NavLink href="/apps">Apps</NavLink>
-            <NavLink href="/about">About</NavLink>
-            <NavLink href="/contact">Contact</NavLink>
+            <NavLink href="/playground">Playground</NavLink>
           </nav>
-
-          <details class="mobileMenu">
-            <summary class="mobileMenuBtn">Menu</summary>
-            <div class="mobileMenuPanel" role="menu">
-              <NavLink href="/services">Services</NavLink>
-              <NavLink href="/research">Research</NavLink>
-              <NavLink href="/apps">Apps</NavLink>
-              <NavLink href="/about">About</NavLink>
-              <NavLink href="/contact">Contact</NavLink>
-            </div>
-          </details>
         </header>
 
         <main>
@@ -68,14 +65,12 @@ const canonicalURL = new URL(Astro.url.pathname, SITE.url);
         <footer class="footer">
           <div>
             <span>&copy; {new Date().getFullYear()} {SITE.name}</span>
-            <span style="opacity:0.6"> &middot; </span>
-            <a href="/services">Work with us</a>
           </div>
           <div style="display:flex; gap:10px; flex-wrap:wrap">
-            <a class="pill" href="/apps">Tools</a>
-            <a class="pill" href="/research">Research</a>
+            <a class="pill" href={`mailto:${SITE.email}`}>Say hi</a>
             <a class="pill" href={SITE.links.linkedin} rel="me" target="_blank">LinkedIn</a>
             <a class="pill" href={SITE.links.medium} rel="me" target="_blank">Medium</a>
+            <a class="pill" href={SITE.links.x} rel="me" target="_blank">X</a>
             <a class="pill" href={SITE.links.github} rel="me" target="_blank">GitHub</a>
           </div>
         </footer>

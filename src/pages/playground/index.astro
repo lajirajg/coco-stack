@@ -8,12 +8,11 @@ const posts = (await getCollection("playground"))
   .sort((a, b) => b.data.pubDate.valueOf() - a.data.pubDate.valueOf());
 ---
 
-<BaseLayout title={`Playground - ${SITE.name}`} description="Hands-on experiments with AI and adjacent tech.">
+<BaseLayout title={`Playground - ${SITE.name}`} description="Experiments, half-baked ideas, and things too interesting not to share.">
   <section class="hero">
-    <div class="kicker">Playground</div>
-    <h1 class="headline">Fast experiments, crisp notes.</h1>
+    <h1 class="headline">Break things, take notes.</h1>
     <p class="subhead">
-      Short writeups of what I tried, what happened, and why it might matter.
+      Experiments with AI and whatever else catches my attention.
     </p>
   </section>
 

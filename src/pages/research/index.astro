@@ -6,21 +6,25 @@ import { getCollection } from "astro:content";
 const posts = (await getCollection("research"))
   .filter((p) => !p.data.draft)
   .sort((a, b) => b.data.pubDate.valueOf() - a.data.pubDate.valueOf());
+
+const myArticles = SITE.medium.filter((a) => a.category === "mine");
 ---
 
-<BaseLayout title={`Research - ${SITE.name}`} description="Deep dives, frameworks, and points of view on AI strategy and implementation.">
+<BaseLayout title={`Research - ${SITE.name}`} description="Deep dives, PoVs, and industry playbooks on AI engineering and strategy.">
   <section class="hero">
-    <div class="kicker">Research & PoVs</div>
     <h1 class="headline">Go deep, stay practical.</h1>
     <p class="subhead">
-      Longer reads on AI strategy, architecture, and what actually works.
-      Published on Medium and here.
+      Research, PoVs, and the best AI playbooks — all in one place.
     </p>
   </section>
 
-  <!-- Medium articles -->
-  <section class="grid" aria-label="Published articles">
-    {SITE.medium.map((article) => (
+  <!-- My Writing -->
+  <section class="grid" aria-label="My writing">
+    <div class="card span12" style="background:transparent; border:none; padding:0 0 0 2px; min-height:auto;">
+      <div class="kicker">My Writing</div>
+    </div>
+
+    {myArticles.map((article) => (
       <a class="card span6" href={article.url} target="_blank" rel="noopener">
         <div class="meta" style="margin-bottom:8px">
           <span class="pill accent">Medium</span>
@@ -55,13 +59,44 @@ const posts = (await getCollection("research"))
     ))}
   </section>
 
-  <section class="grid">
-    <div class="card span12 ctaBanner">
-      <h3>Want this thinking applied to your business?</h3>
-      <p>Our research directly informs our advisory work. Let's talk about your specific challenges.</p>
-      <div class="ctaRow">
-        <a class="btn primary" href={SITE.calLink} target="_blank">Book a call</a>
-        <a class="btn" href="/services">View services</a>
+  <!-- Deep Dives -->
+  <section class="grid" aria-label="Deep dives">
+    <div class="card span12" style="background:transparent; border:none; padding:0 0 0 2px; min-height:auto;">
+      <div class="kicker">Deep Dives</div>
+    </div>
+
+    <div class="card span12">
+      <h3>Coming soon</h3>
+      <p>
+        Long-form explorations of specific AI topics — architecture patterns, evaluation frameworks,
+        production lessons, and things that take more than a blog post to explain.
+      </p>
+      <div class="meta">
+        <span class="pill">Architecture</span>
+        <span class="pill">Evaluation</span>
+        <span class="pill">Production</span>
+      </div>
+    </div>
+  </section>
+
+  <!-- Industry Playbooks -->
+  <section class="grid" aria-label="Industry playbooks">
+    <div class="card span12" style="background:transparent; border:none; padding:0 0 0 2px; min-height:auto;">
+      <div class="kicker">Industry Playbooks</div>
+    </div>
+
+    <div class="card span12">
+      <h3>Coming soon</h3>
+      <p>
+        Curated AI playbooks and frameworks from leading consulting firms and tech companies.
+        The best thinking, consolidated.
+      </p>
+      <div class="meta">
+        <span class="pill">McKinsey</span>
+        <span class="pill">BCG</span>
+        <span class="pill">Google</span>
+        <span class="pill">Anthropic</span>
+        <span class="pill">+ more</span>
       </div>
     </div>
   </section>

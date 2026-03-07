@@ -14,46 +14,37 @@ const statusLabel: Record<string, string> = {
 };
 ---
 
-<BaseLayout title={`Apps & Tools - ${SITE.name}`} description="Free AI tools: readiness scorecard, use case prioritizer, and more.">
+<BaseLayout title={`Apps - ${SITE.name}`} description="Free AI tools — no signup, no fluff.">
   <section class="hero">
-    <div class="kicker">Apps & Tools</div>
-    <h1 class="headline">Free tools, real insights.</h1>
+    <h1 class="headline">Tools that do things.</h1>
     <p class="subhead">
-      Interactive tools to help you evaluate, prioritize, and plan your AI
-      initiatives. No signup required.
+      Built for myself, shared with everyone. No signup required.
     </p>
   </section>
 
   <section class="grid" aria-label="Apps list">
-    <!-- AI Readiness Scorecard (standalone page) -->
     <a class="card span6" href="/apps/ai-readiness-scorecard">
       <h3>AI Readiness Scorecard</h3>
       <p>
-        10-question assessment across 5 dimensions. Get an instant score,
-        per-dimension breakdown, and actionable recommendations.
+        10-question assessment across 5 dimensions. Instant score and recommendations.
       </p>
       <div class="meta">
         <span class="pill accent">Live</span>
-        <span class="pill">Free</span>
-        <span class="pill">3 minutes</span>
+        <span class="pill">3 min</span>
       </div>
     </a>
 
-    <!-- AI Use Case Prioritizer (standalone page) -->
     <a class="card span6" href="/apps/use-case-prioritizer">
       <h3>AI Use Case Prioritizer</h3>
       <p>
-        Input your business goals, rate feasibility and impact, and get a
-        prioritized roadmap with an effort/impact matrix.
+        Rate feasibility and impact, get a prioritized roadmap with an effort/impact matrix.
       </p>
       <div class="meta">
         <span class="pill accent">Live</span>
-        <span class="pill">Free</span>
-        <span class="pill">5 minutes</span>
+        <span class="pill">5 min</span>
       </div>
     </a>
 
-    <!-- Content collection apps -->
     {apps.map((app) => (
       <a class="card span6" href={app.data.url || `/apps/${app.slug}`}>
         <h3>{app.data.title}</h3>
@@ -66,16 +57,5 @@ const statusLabel: Record<string, string> = {
         </div>
       </a>
     ))}
-  </section>
-
-  <section class="grid">
-    <div class="card span12 ctaBanner">
-      <h3>Want a custom tool for your team?</h3>
-      <p>We build tailored AI tools and prototypes. Let's discuss what would be most valuable for your organization.</p>
-      <div class="ctaRow">
-        <a class="btn primary" href={SITE.calLink} target="_blank">Book a call</a>
-        <a class="btn" href="/services">View services</a>
-      </div>
-    </div>
   </section>
 </BaseLayout>

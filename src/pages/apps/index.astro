@@ -22,7 +22,12 @@ const statusLabel: Record<string, string> = {
     </p>
   </section>
 
-  <section class="grid" aria-label="Apps list">
+  <!-- Live -->
+  <section class="grid" aria-label="Live apps">
+    <div class="card span12" style="background:transparent; border:none; padding:0 0 0 2px; min-height:auto;">
+      <div class="kicker">Live</div>
+    </div>
+
     <a class="card span6" href="/apps/ai-readiness-scorecard">
       <h3>AI Readiness Scorecard</h3>
       <p>
@@ -57,5 +62,57 @@ const statusLabel: Record<string, string> = {
         </div>
       </a>
     ))}
+  </section>
+
+  <!-- Building Now -->
+  <section class="grid" aria-label="In progress">
+    <div class="card span12" style="background:transparent; border:none; padding:0 0 0 2px; min-height:auto;">
+      <div class="kicker">Building Now</div>
+    </div>
+
+    <div class="card span6">
+      <h3>NSW Selective Exam Tutor</h3>
+      <p>
+        AI-powered practice and coaching for the NSW Selective High School entrance exam.
+        Adaptive questions, instant feedback, progress tracking.
+      </p>
+      <div class="meta">
+        <span class="pill" style="border-color:rgba(217,119,6,0.3); background:rgba(217,119,6,0.08); color:var(--warn);">In Progress</span>
+        <span class="pill">Education</span>
+        <span class="pill">AI Tutor</span>
+      </div>
+      <div class="ctaRow">
+        <a class="btn primary" href={`mailto:${SITE.email}?subject=Interested%20in%20NSW%20Selective%20Exam%20Tutor`}>I'm interested</a>
+      </div>
+    </div>
+
+    <div class="card span6">
+      <h3>Personal Budget Tracker</h3>
+      <p>
+        Smart budgeting with AI-assisted categorization and insights.
+        Simple, private, and actually useful.
+      </p>
+      <div class="meta">
+        <span class="pill" style="border-color:rgba(217,119,6,0.3); background:rgba(217,119,6,0.08); color:var(--warn);">In Progress</span>
+        <span class="pill">Finance</span>
+        <span class="pill">Personal</span>
+      </div>
+      <div class="ctaRow">
+        <a class="btn primary" href={`mailto:${SITE.email}?subject=Interested%20in%20Personal%20Budget%20Tracker`}>I'm interested</a>
+      </div>
+    </div>
+  </section>
+
+  <!-- Suggest an App -->
+  <section class="grid" aria-label="Suggest an app">
+    <div class="card span12 ctaBanner">
+      <h3>Got an idea for a tool?</h3>
+      <p>
+        Tell me what you wish existed. If it's interesting enough, I'll build it.
+      </p>
+      <div class="ctaRow">
+        <a class="btn primary" href={`mailto:${SITE.email}?subject=App%20Idea&body=Here's%20what%20I%20wish%20existed%3A%0A%0A`}>Share your idea</a>
+      </div>
+    </div>
   </section>
 </BaseLayout>

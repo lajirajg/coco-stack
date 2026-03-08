@@ -13,6 +13,14 @@ export const SITE = {
     x: "https://x.com/lajiraj",
     substack: ""
   },
+  learning: {
+    useAI: [
+      // { title: "Example Resource", url: "https://...", source: "Google", tags: ["Beginner"] },
+    ] as { title: string; url: string; source: string; tags: string[] }[],
+    buildWithAI: [
+      // { title: "Example Resource", url: "https://...", source: "Anthropic", tags: ["LLM"] },
+    ] as { title: string; url: string; source: string; tags: string[] }[],
+  },
   medium: [
     {
       title: "Reasoning in LLMs: From Fast Intuition to Slow Deliberation",

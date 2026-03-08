@@ -1,0 +1,85 @@
+---
+import BaseLayout from "~/layouts/BaseLayout.astro";
+import { SITE } from "~/site";
+
+const useAI = SITE.learning.useAI;
+const buildWithAI = SITE.learning.buildWithAI;
+---
+
+<BaseLayout title={`Learning - ${SITE.name}`} description="Curated AI learning resources — from everyday use to building production systems.">
+  <section class="hero">
+    <h1 class="headline">Learn the thing, then build the thing.</h1>
+    <p class="subhead">
+      Resources I've found useful, organized by where you are in the journey.
+    </p>
+  </section>
+
+  <!-- Use AI -->
+  <section class="grid" aria-label="Use AI">
+    <div class="card span12" style="background:transparent; border:none; padding:0 0 0 2px; min-height:auto;">
+      <div class="kicker">Use AI in Daily Life</div>
+      <p style="color:var(--muted); margin:4px 0 0; font-size:14px;">
+        Prompting, productivity, workflows — get more out of the tools that already exist.
+      </p>
+    </div>
+
+    {useAI.length > 0 ? (
+      useAI.map((r) => (
+        <a class="card span6" href={r.url} target="_blank" rel="noopener">
+          <h3>{r.title}</h3>
+          <div class="meta">
+            <span class="pill accent">{r.source}</span>
+            {r.tags.map((t) => (
+              <span class="pill">{t}</span>
+            ))}
+          </div>
+        </a>
+      ))
+    ) : (
+      <div class="card span12">
+        <p>Resources dropping soon. Check back.</p>
+      </div>
+    )}
+  </section>
+
+  <!-- Build with AI -->
+  <section class="grid" aria-label="Build with AI">
+    <div class="card span12" style="background:transparent; border:none; padding:0 0 0 2px; min-height:auto;">
+      <div class="kicker">Build with AI</div>
+      <p style="color:var(--muted); margin:4px 0 0; font-size:14px;">
+        APIs, agents, architecture, evaluation — for when you're ready to ship.
+      </p>
+    </div>
+
+    {buildWithAI.length > 0 ? (
+      buildWithAI.map((r) => (
+        <a class="card span6" href={r.url} target="_blank" rel="noopener">
+          <h3>{r.title}</h3>
+          <div class="meta">
+            <span class="pill accent">{r.source}</span>
+            {r.tags.map((t) => (
+              <span class="pill">{t}</span>
+            ))}
+          </div>
+        </a>
+      ))
+    ) : (
+      <div class="card span12">
+        <p>Resources dropping soon. Check back.</p>
+      </div>
+    )}
+  </section>
+
+  <!-- Suggest a resource -->
+  <section class="grid" aria-label="Suggest a resource">
+    <div class="card span12 ctaBanner">
+      <h3>Found something great?</h3>
+      <p>
+        Share a link and I'll add it to the collection.
+      </p>
+      <div class="ctaRow">
+        <a class="btn primary" href={`mailto:${SITE.email}?subject=Learning%20Resource&body=Here's%20a%20resource%20I%20found%20useful%3A%0A%0A`}>Share a resource</a>
+      </div>
+    </div>
+  </section>
+</BaseLayout>

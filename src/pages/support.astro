@@ -1,0 +1,89 @@
+---
+import BaseLayout from "~/layouts/BaseLayout.astro";
+import { SITE } from "~/site";
+---
+
+<BaseLayout title="App Support — Coco Assist" description="Support and frequently asked questions for the Coco Assist iOS app.">
+  <section class="hero">
+    <p class="kicker">App Support</p>
+    <h1 class="headline">Coco Assist</h1>
+    <p class="subhead">
+      Your personal receipt scanner, expense tracker, and budget manager — all in one app.
+      Find answers to common questions below, or reach out if you need help.
+    </p>
+  </section>
+
+  <section class="grid" aria-label="FAQ">
+    <div class="card span12">
+      <h3>Frequently Asked Questions</h3>
+    </div>
+
+    <div class="card span6">
+      <h3>How do I scan a receipt?</h3>
+      <p>
+        Open the app and tap the camera icon on the Home tab. Point your camera at the receipt and
+        the app will automatically extract the merchant name, date, total amount, and individual items
+        using on-device text recognition. You can review and correct any details before saving.
+      </p>
+    </div>
+
+    <div class="card span6">
+      <h3>How do I set up a budget?</h3>
+      <p>
+        Go to the Budget tab and tap "Set Up Budget." You can set monthly spending limits for each
+        category — groceries, dining out, transportation, utilities, entertainment, shopping,
+        healthcare, gas, and more. The dashboard will show your progress in real time as you add
+        transactions.
+      </p>
+    </div>
+
+    <div class="card span6">
+      <h3>How do I export my data?</h3>
+      <p>
+        Navigate to the Receipts tab, then use the export option to generate a CSV file of your
+        tax-categorized receipts. You can also export receipt images organized by category. All
+        exports can be shared via email, saved to Files, or sent to any app that accepts documents.
+      </p>
+    </div>
+
+    <div class="card span6">
+      <h3>How do I change budget categories?</h3>
+      <p>
+        From the Budget tab, tap on any existing budget category to edit or remove it. You can
+        adjust spending limits at any time, and the dashboard will recalculate your remaining
+        budget for the current month automatically.
+      </p>
+    </div>
+
+    <div class="card span12">
+      <h3>Privacy &amp; Your Data</h3>
+      <p>
+        Your privacy is important to us. Coco Assist stores all data locally on your device — there
+        is no cloud sync, no account creation, and no data sent to external servers. The camera is
+        used solely for scanning receipts. No analytics or tracking data is collected. You are in
+        full control of your information at all times.
+      </p>
+    </div>
+  </section>
+
+  <section class="grid" aria-label="Contact">
+    <div class="card span12 ctaBanner">
+      <h3>Need more help?</h3>
+      <p>
+        If you have a question that isn't covered above, or you'd like to report a bug or suggest
+        a feature, feel free to get in touch.
+      </p>
+      <div class="ctaRow">
+        <a class="btn primary" href={`mailto:${SITE.email}?subject=Coco Assist Support`}>Contact Us</a>
+      </div>
+    </div>
+  </section>
+
+  <section class="grid" aria-label="App info">
+    <div class="card span12" style="text-align:center; min-height:auto; padding:14px 16px;">
+      <p style="margin:0; font-size:13px; color:var(--muted);">
+        Coco Assist &middot; Version 1.0 &middot; Made by <a href={SITE.url}>{SITE.name}</a>
+      </p>
+    </div>
+  </section>
+</BaseLayout>

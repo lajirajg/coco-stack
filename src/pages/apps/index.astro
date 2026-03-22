@@ -50,6 +50,28 @@ const statusLabel: Record<string, string> = {
       </div>
     </a>
 
+    <div class="card span6">
+      <h3>CocoLedger</h3>
+      <p>
+        Smart budgeting with AI-assisted categorization and insights.
+        Simple, private, and actually useful.
+      </p>
+      <div class="meta">
+        <span class="pill accent">Live</span>
+        <span class="pill">Finance</span>
+        <span class="pill">iOS</span>
+      </div>
+      <div style="display:flex; align-items:center; gap:16px; margin-top:12px;">
+        <a href="https://apps.apple.com/au/app/cocoledger/id6749493845" target="_blank" rel="noopener">
+          <img src="/cocoledger-qr.svg" alt="Scan to download CocoLedger" width="100" height="100" style="border-radius:8px; background:#fff; padding:4px;" />
+        </a>
+        <div style="display:flex; flex-direction:column; gap:8px;">
+          <a class="btn primary" href="https://apps.apple.com/au/app/cocoledger/id6749493845" target="_blank" rel="noopener">Download on the App Store</a>
+          <a class="btn" href={`mailto:${SITE.email}?subject=CocoLedger%20—%20Contact`}>Contact Us</a>
+        </div>
+      </div>
+    </div>
+
     {apps.map((app) => (
       <a class="card span6" href={app.data.url || `/apps/${app.slug}`}>
         <h3>{app.data.title}</h3>
@@ -83,22 +105,6 @@ const statusLabel: Record<string, string> = {
       </div>
       <div class="ctaRow">
         <a class="btn primary" href={`mailto:${SITE.email}?subject=Interested%20in%20NSW%20Selective%20Exam%20Tutor`}>I'm interested</a>
-      </div>
-    </div>
-
-    <div class="card span6">
-      <h3>CocoLedger</h3>
-      <p>
-        Smart budgeting with AI-assisted categorization and insights.
-        Simple, private, and actually useful. Formerly "Personal Budget Tracker."
-      </p>
-      <div class="meta">
-        <span class="pill" style="border-color:rgba(217,119,6,0.3); background:rgba(217,119,6,0.08); color:var(--warn);">In Progress</span>
-        <span class="pill">Finance</span>
-        <span class="pill">Personal</span>
-      </div>
-      <div class="ctaRow">
-        <a class="btn primary" href={`mailto:${SITE.email}?subject=CocoLedger%20—%20Contact`}>Contact Us</a>
       </div>
     </div>
   </section>
